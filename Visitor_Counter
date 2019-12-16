@@ -1,0 +1,184 @@
+
+ #define trigPin 13
+ #define echoPin 12
+ #define trigPin2 8
+ #define echoPin2 9
+ #define trigPin3 3
+ #define echoPin3 4
+/* uncomment one of the following lines that describes your display
+ * and comment out the line that does not describe your display */
+int button = 7;
+int i = 0;
+int currentState = 0;
+int previousState = 0;
+int currentState2 = 0;
+int previousState2 = 0;
+int currentState3 = 0;
+long t = 0;
+int  val = 0;
+ 
+
+
+
+void setup() {
+ // initialize I/O pins
+ pinMode(button, INPUT);
+ pinMode(trigPin, OUTPUT);
+ pinMode(echoPin, INPUT);
+ pinMode(trigPin2, OUTPUT);
+ pinMode(echoPin2, INPUT);
+ pinMode(trigPin3, OUTPUT);
+ pinMode(echoPin3, INPUT);
+ pinMode(7, OUTPUT);
+
+}
+
+void loop() {
+ long duration, distance;
+ digitalWrite(trigPin, LOW); 
+ delayMicroseconds(2); 
+ digitalWrite(trigPin, HIGH);
+ delayMicroseconds(10); 
+ digitalWrite(trigPin, LOW);
+ duration = pulseIn(echoPin, HIGH);
+ distance = (duration/2) / 29.1;
+ long duration2, distance2;
+ digitalWrite(trigPin2, LOW); 
+ delayMicroseconds(2); 
+ digitalWrite(trigPin2, HIGH);
+ delayMicroseconds(10); 
+ digitalWrite(trigPin2, LOW);
+ duration2 = pulseIn(echoPin2, HIGH);
+ distance2 = (duration2/2) / 29.1;
+ long duration3, distance3;
+ digitalWrite(trigPin3, LOW); 
+ delayMicroseconds(2); 
+ digitalWrite(trigPin3, HIGH);
+ delayMicroseconds(10); 
+ digitalWrite(trigPin3, LOW);
+ duration3 = pulseIn(echoPin3, HIGH);
+ distance3 = (duration3/2) / 29.1;
+
+
+
+ 
+ // object entering in the system
+ if (distance <= 10){
+ currentState = 1;
+ }
+ else {
+ currentState = 0;
+ }
+ //delay(100);
+ 
+ 
+ 
+ 
+ if(currentState != previousState){
+ while(currentState == 1) {
+ long duration2, distance2;
+ digitalWrite(trigPin2, LOW); 
+ delayMicroseconds(2); 
+ digitalWrite(trigPin2, HIGH);
+ delayMicroseconds(10); 
+ digitalWrite(trigPin2, LOW);
+ duration2 = pulseIn(echoPin2, HIGH);
+ distance2 = (duration2/2) / 29.1;
+ if (distance2 <= 10){
+ currentState2 = 1;
+ }
+ else {
+ currentState2 = 0;
+ }
+// delay(100);
+
+ 
+ if(currentState2 != previousState2){
+ if(currentState2 == 1) {
+ i = i+1;
+ Serial. begin(9600);
+ Serial. print("The counter value is ");
+ Serial.println(i);
+ digitalWrite(7, HIGH);
+ t= millis();
+// Serial.print("t is ");
+// Serial.println(t);
+ delay(1000); // pause for 1/2 second
+ }
+ else {
+ }
+ return;
+  }
+  }
+ }
+ 
+ // object exit from the system 
+if (distance2 <= 10){
+ currentState2 = 1;
+ }
+ else {
+ currentState2 = 0;
+ }
+ delay(100);
+ if(currentState2 != previousState2){
+ while (currentState2 == 1) {
+ long duration, distance;
+ digitalWrite(trigPin, LOW); 
+ delayMicroseconds(2); 
+ digitalWrite(trigPin, HIGH);
+ delayMicroseconds(10); 
+ digitalWrite(trigPin, LOW);
+ duration = pulseIn(echoPin, HIGH);
+ distance = (duration/2) / 29.1;
+ if (distance <= 10){
+ currentState = 1;
+ }
+ else {
+ currentState = 0;
+ }
+ delay(100);
+ if(currentState != previousState){
+ if(currentState == 1) {
+ i = i-1; 
+ if(i<=0){
+ digitalWrite(7, LOW);
+ i=0;
+ }
+ Serial. begin(9600);
+ Serial. print("The counter value is ");
+ Serial.println(i);
+ t = millis();
+// Serial. print("t  is ");
+// Serial. println(t);
+
+
+ delay(1000); // pause for 1/2 second
+ }
+ else {
+ }
+ return;
+   }
+  }
+ }
+
+
+ if (distance3 <= 10 && i>0){
+ currentState3 = 1;
+ digitalWrite(7, HIGH);
+ t=millis();
+ }
+ else {
+ currentState3 = 0;
+ }
+
+// Serial.print("millis() is  ");
+// Serial.println((millis()));
+// Serial.print("difference is  ");
+ //Serial.println((millis()- t));
+ 
+ if((currentState==currentState2) && (currentState3==0) &&(millis()- t) >=12000 ){
+     digitalWrite(7, LOW);
+     return;
+ }
+ 
+}
