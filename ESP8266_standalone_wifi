@@ -79,10 +79,10 @@ void sendSensor()
   Serial.println(m);
   t = analogRead(2) ;
   Serial.println(t);
-  Blynk.virtualWrite(V5, h);
-  Blynk.virtualWrite(V6, t);
-  Blynk.virtualWrite(V7, m);
-
+   // Blynk.virtualWrite(V5, h);
+   // Blynk.virtualWrite(V6, t);
+  // Blynk.virtualWrite(V7, m);
+ 
  if(digitalRead(13))
 {
 analogWrite(5,0);
