@@ -106,8 +106,9 @@ void loop() {
  delay(1000); // pause for 1/2 second
  }
  else {
+  return;
  }
- return;
+
   }
   }
  }
@@ -150,13 +151,11 @@ if (distance2 <= 10){
  t = millis();
 // Serial. print("t  is ");
 // Serial. println(t);
-
-
- delay(1000); // pause for 1/2 second
+ delay(1000); 
  }
  else {
+     return;
  }
- return;
    }
   }
  }
